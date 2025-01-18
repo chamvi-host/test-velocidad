@@ -9,32 +9,33 @@ body {
     align-items: center;
     height: 100vh;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .container {
     text-align: center;
-    padding: 15px;
+    padding: 20px;
     background-color: #111;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-    width: 80%; /* Reduce el tamaño de la caja */
-    max-width: 400px; /* Limita el tamaño máximo */
+    width: 100%; 
+    max-width: 800px; /* Limita el tamaño máximo */
     position: relative;
-    overflow: hidden;
     box-sizing: border-box;
+    padding-bottom: 30px; /* Añadimos espacio en la parte inferior */
 }
 
 button {
     background-color: #00b300;
     color: #000;
-    font-size: 18px; /* Reduce el tamaño del texto del botón */
-    padding: 12px 20px;
+    font-size: 20px; /* Aumentamos el tamaño del botón */
+    padding: 15px 30px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     font-family: 'Courier New', Courier, monospace;
     transition: background-color 0.3s;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     width: 100%; /* El botón ocupa todo el ancho */
     box-sizing: border-box;
 }
@@ -44,12 +45,12 @@ button:hover {
 }
 
 h1 {
-    font-size: 24px; /* Reduce el tamaño del título */
-    margin-bottom: 15px;
+    font-size: 30px; /* Título más grande */
+    margin-bottom: 20px;
 }
 
 .hacker {
-    font-size: 32px; /* Reduce el tamaño del texto "Hacker" */
+    font-size: 36px;
     font-weight: bold;
     color: #ff0000;
 }
@@ -57,9 +58,9 @@ h1 {
 .progress-bar-background {
     background-color: #333;
     width: 100%;
-    height: 20px;
-    margin-top: 15px;
-    border-radius: 10px;
+    height: 40px; /* Barra de progreso más alta */
+    margin-top: 20px;
+    border-radius: 20px;
     box-shadow: 0 0 5px #00ff00;
 }
 
@@ -67,20 +68,20 @@ h1 {
     background-color: #00ff00;
     height: 100%;
     width: 0%;
-    border-radius: 10px;
+    border-radius: 20px;
     transition: width 0.1s ease;
     box-shadow: 0 0 10px #00ff00;
 }
 
 #result {
-    margin-top: 10px;
-    font-size: 16px; /* Reduce el tamaño del texto del resultado */
+    margin-top: 20px;
+    font-size: 18px;
     color: #ffffff;
 }
 
 .speed-values {
     margin-top: 20px;
-    font-size: 16px; /* Reduce el tamaño de la velocidad */
+    font-size: 18px;
     color: #ffffff;
 }
 
@@ -89,41 +90,55 @@ h1 {
     color: #00ff00;
 }
 
-/* Media Query para pantallas más pequeñas (móviles) */
+/* Media Query para pantallas pequeñas (móviles) */
 @media (max-width: 600px) {
-    h1 {
-        font-size: 20px;
-    }
-
-    .hacker {
-        font-size: 28px;
+    .container {
+        width: 100%;
+        max-width: none;
+        padding: 15px;
     }
 
     button {
-        font-size: 16px; /* Reduce más el tamaño del botón en móviles */
-        padding: 10px 15px;
+        font-size: 16px; /* Reduce el tamaño del botón */
+        padding: 12px;
     }
 
-    .container {
-        width: 90%; /* Aumenta el tamaño en pantallas móviles */
-    }
-}
-
-/* Media Query para tabletas y pantallas medianas */
-@media (max-width: 1024px) {
     h1 {
-        font-size: 22px;
+        font-size: 24px;
     }
 
     .hacker {
         font-size: 30px;
     }
 
+    .progress-bar-background {
+        height: 30px;
+    }
+
+    .speed-values {
+        font-size: 16px;
+    }
+}
+
+/* Media Query para pantallas medianas (tabletas) */
+@media (max-width: 1024px) {
     .container {
         width: 80%;
     }
 
     button {
+        font-size: 18px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .progress-bar-background {
+        height: 35px;
+    }
+
+    .speed-values {
         font-size: 17px;
     }
 }
