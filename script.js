@@ -31,8 +31,8 @@ function startTest() {
             progressBar.style.width = `${(downloaded / total) * 100}%`;
 
             // Mostrar la velocidad
-            speedMbpsElement.textContent = `${downloadSpeedMbps.toFixed(2)} Mbps`;
-            speedMBElement.textContent = `${(downloadSpeedMBps).toFixed(2)} MB/s`;
+            speedMbpsElement.textContent = `${downloadSpeedMbps.toFixed(2)} `;
+            speedMBElement.textContent = `${(downloadSpeedMBps).toFixed(2)} `;
         }
     };
 
