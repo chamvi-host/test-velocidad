@@ -1,54 +1,42 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f9;
-    margin: 0;
-}
+const fileUrl = 'https://proof.ovh.net/files/1Gb.dat'; // Usando el archivo de 1GB de OVH que permite CORS
+const progressBar = document.getElementById('progressBar');
+const resultDiv = document.getElementById('result');
+const progressContainer = document.getElementById('progressContainer');
 
-.container {
-    text-align: center;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 400px;
-}
+async function startTest() {
+    resultDiv.innerHTML = "Calculando velocidad...";
+    progressBar.style.width = '0%';
+    progressContainer.style.visibility = 'visible';
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+    const startTime = new Date().getTime();
 
-button:hover {
-    background-color: #0056b3;
-}
+    try {
+        const response = await fetch(fileUrl);
+        const reader = response.body.getReader();
+        let downloaded = 0;
+        const contentLength = +response.headers.get('Content-Length');
 
-.progress-bar-background {
-    background-color: #ddd;
-    border-radius: 5px;
-    width: 100%;
-    height: 20px;
-    margin-top: 20px;
-}
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            downloaded += value.length;
 
-.progress-bar {
-    background-color: #4caf50;
-    height: 100%;
-    width: 0%;
-    border-radius: 5px;
-    transition: width 0.1s;
-}
+            const progress = (downloaded / contentLength) * 100;
+            progressBar.style.width = `${progress}%`;
 
-#result {
-    margin-top: 10px;
-    font-size: 18px;
+            const currentTime = new Date().getTime();
+            const durationInSeconds = (currentTime - startTime) / 1000; 
+            const speedMbps = (downloaded * 8) / (1024 * 1024 * durationInSeconds);
+
+            resultDiv.innerHTML = `
+                <p>Velocidad de descarga: <span style="color: #00ff00">${speedMbps.toFixed(2)}</span> Mbps</p>
+            `;
+        }
+
+        progressBar.style.width = '100%';
+        resultDiv.innerHTML += `<p>Test completado.</p>`;
+
+    } catch (error) {
+        resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+    }
 }
