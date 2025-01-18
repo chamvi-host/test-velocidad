@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Velocidad</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        button { padding: 10px 20px; font-size: 16px; }
+        #result { margin-top: 20px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>Test de Velocidad de Internet</h1>
+    <button onclick="startTest()">Iniciar Test</button>
+    <div id="result"></div>
+
+    <script>
+        async function startTest() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = "Midiendo...";
+            
+            const fileUrl = 'https://speed.hetzner.de/100MB.bin'; // Archivo de prueba
+            const startTime = new Date().getTime();
+
+            try {
+                const response = await fetch(fileUrl);
+                const reader = response.body.getReader();
+                let downloaded = 0;
+                const contentLength = +response.headers.get('Content-Length');
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    downloaded += value.length;
+                }
+
+                const endTime = new Date().getTime();
+                const duration = (endTime - startTime) / 1000; // en segundos
+                const speedMbps = ((downloaded * 8) / (1024 * 1024)) / duration;
+
+                resultDiv.innerHTML = `
+                    <p>Velocidad de descarga: ${speedMbps.toFixed(2)} Mbps</p>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
