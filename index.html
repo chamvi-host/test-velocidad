@@ -7,21 +7,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Test de Velocidad</h1>
     <div class="container">
-        <h1>Test de Velocidad <span class="hacker"></span></hh1>
         <button onclick="startTest()">Iniciar Test</button>
         <div id="progressContainer" style="visibility: hidden;">
-            <div class="progress-bar-background">
-                <div id="progressBar" class="progress-bar"></div>
-            </div>
-            <div id="result"></div>
-            <div class="speed-values">
-                <p>Velocidad Máxima: <span id="maxSpeed">0 Mbps</span></p>
-                <p>Velocidad Mínima: <span id="minSpeed">0 Mbps</span></p>
-            </div>
+            <div id="progressBar"></div>
+        </div>
+        <div id="result"></div>
+        <div id="speedDetails">
+            <p>Velocidad máxima: <span id="maxSpeed">0</span> Mbps (<span id="maxSpeedMB">0</span> MB/s)</p>
+            <p>Velocidad mínima: <span id="minSpeed">0</span> Mbps (<span id="minSpeedMB">0</span> MB/s)</p>
         </div>
     </div>
-
+    
     <script src="script.js"></script>
 </body>
 </html>
