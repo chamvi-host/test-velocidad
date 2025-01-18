@@ -1,6 +1,3 @@
-let maxSpeed = 0;
-let minSpeed = Infinity;
-
 function startTest() {
     const fileUrl = 'https://proof.ovh.net/files/1Gb.dat'; // Archivo de prueba
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Proxy CORS
@@ -10,10 +7,8 @@ function startTest() {
     const progressBar = document.getElementById('progressBar');
     const result = document.getElementById('result');
     const progressContainer = document.getElementById('progressContainer');
-    const maxSpeedElement = document.getElementById('maxSpeed');
-    const minSpeedElement = document.getElementById('minSpeed');
-    const maxSpeedMBElement = document.getElementById('maxSpeedMB');
-    const minSpeedMBElement = document.getElementById('minSpeedMB');
+    const speedMbpsElement = document.getElementById('speedMbps');
+    const speedMBElement = document.getElementById('speedMB');
 
     // Mostrar barra de progreso
     progressContainer.style.visibility = 'visible';
@@ -35,20 +30,9 @@ function startTest() {
             // Actualizar la barra de progreso
             progressBar.style.width = `${(downloaded / total) * 100}%`;
 
-            // Actualizar las velocidades más alta y baja
-            if (downloadSpeedMbps > maxSpeed) {
-                maxSpeed = downloadSpeedMbps;
-            }
-
-            if (downloadSpeedMbps < minSpeed) {
-                minSpeed = downloadSpeedMbps;
-            }
-
-            // Mostrar las velocidades
-            maxSpeedElement.textContent = `${maxSpeed.toFixed(2)} Mbps`;
-            minSpeedElement.textContent = `${minSpeed.toFixed(2)} Mbps`;
-            maxSpeedMBElement.textContent = `${(maxSpeed / 8).toFixed(2)} MB/s`;
-            minSpeedMBElement.textContent = `${(minSpeed / 8).toFixed(2)} MB/s`;
+            // Mostrar la velocidad
+            speedMbpsElement.textContent = `${downloadSpeedMbps.toFixed(2)} Mbps`;
+            speedMBElement.textContent = `${(downloadSpeedMBps).toFixed(2)} MB/s`;
         }
     };
 
