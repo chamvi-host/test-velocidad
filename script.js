@@ -1,5 +1,5 @@
 const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-const fileUrl = 'https://speed.hetzner.de/100MB.bin'; // Archivo de prueba sin restricciones
+const fileUrl = 'https://proof.ovh.net/files/1Gb.dat'; // Archivo alternativo sin restricciones de CORS
 const fullUrl = proxyUrl + fileUrl;
 
 async function startTest() {
