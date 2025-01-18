@@ -2,16 +2,16 @@ const fileUrl = 'https://cors-anywhere.herokuapp.com/https://proof.ovh.net/files
 const progressBar = document.getElementById('progressBar');
 const resultDiv = document.getElementById('result');
 const progressContainer = document.getElementById('progressContainer');
-const consoleOutput = document.getElementById('consoleOutput');
+const speedValuesDiv = document.createElement('div');
+speedValuesDiv.classList.add('speed-values');
 
 async function startTest() {
     resultDiv.innerHTML = "Calculando velocidad...";
     progressBar.style.width = '0%';
     progressContainer.style.visibility = 'visible';
+    speedValuesDiv.innerHTML = '';  // Limpiar valores anteriores
 
     const startTime = new Date().getTime();
-
-    logToConsole('Iniciando test de velocidad...');
 
     try {
         const response = await fetch(fileUrl);
@@ -30,11 +30,15 @@ async function startTest() {
             const currentTime = new Date().getTime();
             const durationInSeconds = (currentTime - startTime) / 1000; 
             const speedMbps = (downloaded * 8) / (1024 * 1024 * durationInSeconds);
+            const speedMBps = (downloaded / (1024 * 1024 * durationInSeconds));
 
             resultDiv.innerHTML = `
-                <p>Velocidad de descarga: <span style="color: #00ff00">${speedMbps.toFixed(2)}</span> Mbps</p>
+                <p>Velocidad de descarga:</p>
+                <div class="speed-values">
+                    <span>${speedMbps.toFixed(2)} Mbps</span> | 
+                    <span>${speedMBps.toFixed(2)} MB/s</span>
+                </div>
             `;
-            logToConsole(`Progreso: ${progress.toFixed(2)}% | Velocidad: ${speedMbps.toFixed(2)} Mbps`);
         }
 
         progressBar.style.width = '100%';
@@ -42,13 +46,5 @@ async function startTest() {
 
     } catch (error) {
         resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
-        logToConsole(`Error: ${error.message}`);
     }
-}
-
-// Función para imprimir el "log" al estilo hacker en la consola
-function logToConsole(message) {
-    const timestamp = new Date().toISOString();
-    consoleOutput.textContent += `[${timestamp}] ${message}\n`;
-    consoleOutput.scrollTop = consoleOutput.scrollHeight; // Desplazarse al final
 }
