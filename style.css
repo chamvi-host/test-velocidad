@@ -1,4 +1,4 @@
-/* Fondo oscuro y texto verde brillante al estilo hacker */
+/* Estilos básicos */
 body {
     font-family: 'Courier New', Courier, monospace;
     background-color: #000;
@@ -17,9 +17,11 @@ body {
     background-color: #111;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-    width: 500px;
+    width: 90%; /* Esto hace que la caja ocupe el 90% del ancho disponible */
+    max-width: 500px; /* Asegura que la caja no crezca demasiado */
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 button {
@@ -34,6 +36,8 @@ button {
     transition: background-color 0.3s;
     margin-bottom: 20px;
     box-shadow: 0 0 15px #00b300;
+    width: 100%; /* El botón ocupa el 100% del ancho de la caja */
+    box-sizing: border-box;
 }
 
 button:hover {
@@ -84,4 +88,43 @@ h1 {
 .speed-values span {
     font-weight: bold;
     color: #00ff00;
+}
+
+/* Media Query para pantallas más pequeñas (móviles) */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    .hacker {
+        font-size: 30px;
+    }
+
+    button {
+        font-size: 18px;
+        padding: 12px 20px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+
+/* Media Query para tabletas y pantallas medianas */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 26px;
+    }
+
+    .hacker {
+        font-size: 35px;
+    }
+
+    .container {
+        width: 80%;
+    }
+
+    button {
+        font-size: 19px;
+    }
 }
