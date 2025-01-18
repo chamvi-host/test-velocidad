@@ -7,39 +7,51 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Test de Velocidad Real</h1>
+    <h1>Test de Velocidad Hacker</h1>
     <button onclick="startTest()">Iniciar Test</button>
     <div id="result"></div>
+    <!-- Barra de progreso -->
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
 
     <script>
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-        const fileUrl = 'https://proof.ovh.net/files/100Mb.dat'; // Archivo de prueba
-        const fullUrl = proxyUrl + fileUrl;
-
         async function startTest() {
             const resultDiv = document.getElementById('result');
+            const progressBar = document.getElementById('progress-bar');
             resultDiv.innerHTML = "Calculando velocidad...";
+            progressBar.style.width = "0%";
 
+            const fileUrl = 'https://proof.ovh.net/files/100Mb.dat'; // Enlace de prueba
             const startTime = new Date().getTime();
+            let downloaded = 0;
+            let totalSize = 0;
 
             try {
-                const response = await fetch(fullUrl);
+                const response = await fetch(fileUrl);
                 const reader = response.body.getReader();
-                let downloaded = 0;
+                totalSize = +response.headers.get('Content-Length');
 
+                // Leer los datos del archivo mientras se descargan
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
+
                     downloaded += value.length;
+                    const percentage = (downloaded / totalSize) * 100;
+                    progressBar.style.width = `${percentage}%`;
+
+                    // Actualizar la velocidad
+                    const endTime = new Date().getTime();
+                    const duration = (endTime - startTime) / 1000; // en segundos
+                    const speedMbps = ((downloaded * 8) / (1024 * 1024)) / duration;
+
+                    resultDiv.innerHTML = `
+                        <p>Velocidad de descarga: <span style="color: #00ff00">${speedMbps.toFixed(2)}</span> Mbps</p>
+                    `;
                 }
 
-                const endTime = new Date().getTime();
-                const duration = (endTime - startTime) / 1000; // en segundos
-                const speedMbps = ((downloaded * 8) / (1024 * 1024)) / duration;
-
-                resultDiv.innerHTML = `
-                    <p>Velocidad de descarga: <span style="color: #00ff00">${speedMbps.toFixed(2)}</span> Mbps</p>
-                `;
+                resultDiv.innerHTML += `<p>Test completo: ${downloaded / (1024 * 1024)} MB descargados.</p>`;
             } catch (error) {
                 resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
             }
