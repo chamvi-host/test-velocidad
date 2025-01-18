@@ -2,7 +2,10 @@ let maxSpeed = 0;
 let minSpeed = Infinity;
 
 function startTest() {
-    const fileUrl = 'https://proof.ovh.net/files/1Gb.dat'; // Reemplaza este enlace con uno válido
+    const fileUrl = 'https://proof.ovh.net/files/1Gb.dat'; // Archivo de prueba
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Proxy CORS
+    const fullUrl = proxyUrl + fileUrl;
+
     const startTime = Date.now();
     const progressBar = document.getElementById('progressBar');
     const result = document.getElementById('result');
@@ -16,7 +19,7 @@ function startTest() {
 
     // Función para medir el progreso de la descarga
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', fileUrl, true);
+    xhr.open('GET', fullUrl, true);
     xhr.responseType = 'blob';
 
     xhr.onprogress = function (event) {
