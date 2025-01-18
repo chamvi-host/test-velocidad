@@ -12,6 +12,8 @@ function startTest() {
     const progressContainer = document.getElementById('progressContainer');
     const maxSpeedElement = document.getElementById('maxSpeed');
     const minSpeedElement = document.getElementById('minSpeed');
+    const maxSpeedMBElement = document.getElementById('maxSpeedMB');
+    const minSpeedMBElement = document.getElementById('minSpeedMB');
 
     // Mostrar barra de progreso
     progressContainer.style.visibility = 'visible';
@@ -27,10 +29,8 @@ function startTest() {
             const downloaded = event.loaded;
             const total = event.total;
             const timeElapsed = (Date.now() - startTime) / 1000; // Tiempo transcurrido en segundos
-            const downloadSpeed = (downloaded / timeElapsed) / 1024 / 1024; // en MB/s
-
-            // Convertir MB/s a Mbps
-            const downloadSpeedMbps = downloadSpeed * 8;
+            const downloadSpeedMBps = (downloaded / timeElapsed) / 1024 / 1024; // en MB/s
+            const downloadSpeedMbps = downloadSpeedMBps * 8; // Convertir a Mbps
 
             // Actualizar la barra de progreso
             progressBar.style.width = `${(downloaded / total) * 100}%`;
@@ -47,6 +47,8 @@ function startTest() {
             // Mostrar las velocidades
             maxSpeedElement.textContent = `${maxSpeed.toFixed(2)} Mbps`;
             minSpeedElement.textContent = `${minSpeed.toFixed(2)} Mbps`;
+            maxSpeedMBElement.textContent = `${(maxSpeed / 8).toFixed(2)} MB/s`;
+            minSpeedMBElement.textContent = `${(minSpeed / 8).toFixed(2)} MB/s`;
         }
     };
 
