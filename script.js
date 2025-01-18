@@ -2,6 +2,7 @@ const fileUrl = 'https://cors-anywhere.herokuapp.com/https://proof.ovh.net/files
 const progressBar = document.getElementById('progressBar');
 const resultDiv = document.getElementById('result');
 const progressContainer = document.getElementById('progressContainer');
+const consoleOutput = document.getElementById('consoleOutput');
 
 async function startTest() {
     resultDiv.innerHTML = "Calculando velocidad...";
@@ -9,6 +10,8 @@ async function startTest() {
     progressContainer.style.visibility = 'visible';
 
     const startTime = new Date().getTime();
+
+    logToConsole('Iniciando test de velocidad...');
 
     try {
         const response = await fetch(fileUrl);
@@ -31,6 +34,7 @@ async function startTest() {
             resultDiv.innerHTML = `
                 <p>Velocidad de descarga: <span style="color: #00ff00">${speedMbps.toFixed(2)}</span> Mbps</p>
             `;
+            logToConsole(`Progreso: ${progress.toFixed(2)}% | Velocidad: ${speedMbps.toFixed(2)} Mbps`);
         }
 
         progressBar.style.width = '100%';
@@ -38,5 +42,13 @@ async function startTest() {
 
     } catch (error) {
         resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+        logToConsole(`Error: ${error.message}`);
     }
+}
+
+// Función para imprimir el "log" al estilo hacker en la consola
+function logToConsole(message) {
+    const timestamp = new Date().toISOString();
+    consoleOutput.textContent += `[${timestamp}] ${message}\n`;
+    consoleOutput.scrollTop = consoleOutput.scrollHeight; // Desplazarse al final
 }
