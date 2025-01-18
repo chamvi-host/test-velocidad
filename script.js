@@ -1,4 +1,4 @@
-const fileUrl = 'https://proof.ovh.net/files/1Gb.dat'; // Usando el archivo de 1GB de OVH que permite CORS
+const fileUrl = 'https://cors-anywhere.herokuapp.com/https://proof.ovh.net/files/1Gb.dat'; // Usando CORS Anywhere como proxy
 const progressBar = document.getElementById('progressBar');
 const resultDiv = document.getElementById('result');
 const progressContainer = document.getElementById('progressContainer');
