@@ -1,90 +1,54 @@
-/* Estilo general */
 body {
-    background-color: black;
-    color: #00ff00;
-    font-family: "Courier New", Courier, monospace;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+    margin: 0;
+}
+
+.container {
     text-align: center;
-    padding: 50px;
-    overflow: hidden;
-}
-
-/* Título con efecto de parpadeo */
-h1 {
-    font-size: 2.5em;
-    text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00;
-    animation: blink 1s infinite;
-}
-
-/* Botón de inicio */
-button {
-    background: linear-gradient(45deg, #006400, #00ff00);
-    border: none;
-    padding: 15px 30px;
-    color: black;
-    font-size: 1.2em;
-    font-weight: bold;
+    padding: 20px;
+    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 0 15px #00ff00;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 25px #00ff00, 0 0 35px #00ff00;
+    background-color: #0056b3;
 }
 
-/* Resultado */
-#result {
-    margin-top: 20px;
-    font-size: 1.5em;
-    text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
-}
-
-/* Barra de progreso */
-#progressContainer {
-    margin-top: 30px;
-    width: 80%;
-    height: 20px;
-    background-color: #444;
-    border-radius: 10px;
-    visibility: hidden; /* Oculta la barra al inicio */
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#progressBar {
-    width: 0%;
-    height: 100%;
-    background-color: #00ff00;
-    border-radius: 10px;
-}
-
-/* Animación parpadeo */
-@keyframes blink {
-    50% {
-        opacity: 0.5;
-    }
-}
-
-/* Efecto de fondo animado */
-body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
+.progress-bar-background {
+    background-color: #ddd;
+    border-radius: 5px;
     width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, transparent, black 70%);
-    z-index: -1;
-    animation: background-glitch 5s infinite;
+    height: 20px;
+    margin-top: 20px;
 }
 
-@keyframes background-glitch {
-    0%, 100% {
-        background-position: 0 0;
-    }
-    50% {
-        background-position: 100% 100%;
-    }
+.progress-bar {
+    background-color: #4caf50;
+    height: 100%;
+    width: 0%;
+    border-radius: 5px;
+    transition: width 0.1s;
+}
+
+#result {
+    margin-top: 10px;
+    font-size: 18px;
 }
