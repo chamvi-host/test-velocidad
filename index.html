@@ -9,16 +9,77 @@
 <body>
     <h1>Test de Velocidad</h1>
     <div class="container">
-        <button onclick="startTest()">Iniciar Test</button>
+        <button id="startButton" onclick="startTest()">Iniciar Test</button>
         <div id="progressContainer" style="visibility: hidden;">
             <div id="progressBar"></div>
         </div>
         <div id="result"></div>
         <div id="speedDetails">
-            <p>Velocidad: <span id="speedMbps">0</span> Mbps (<span id="speedMB">0</span> MB/s )</p>
+            <p>Velocidad: <span id="speedMbps">0</span> Mbps (<span id="speedMB">0</span> MB/s)</p>
         </div>
     </div>
-    
-    <script src="script.js"></script>
+
+    <script>
+        function startTest() {
+            const fileUrl = 'https://codeload.github.com/chamvi-host/PSX/zip/refs/heads/main'; // Archivo de prueba
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Proxy CORS
+            const fullUrl = proxyUrl + fileUrl;
+
+            const startTime = Date.now();
+            const progressBar = document.getElementById('progressBar');
+            const result = document.getElementById('result');
+            const progressContainer = document.getElementById('progressContainer');
+            const speedMbpsElement = document.getElementById('speedMbps');
+            const speedMBElement = document.getElementById('speedMB');
+            const startButton = document.getElementById('startButton');
+
+            // Deshabilitar el botón mientras se realiza el test
+            startButton.disabled = true;
+
+            // Mostrar barra de progreso
+            progressContainer.style.visibility = 'visible';
+            progressBar.style.width = '0%';
+            result.textContent = '';
+
+            // Configuración de la descarga
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', fullUrl, true);
+            xhr.responseType = 'blob';
+
+            xhr.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    const downloaded = event.loaded;
+                    const total = event.total;
+                    const timeElapsed = (Date.now() - startTime) / 1000; // Tiempo transcurrido en segundos
+                    const downloadSpeedMBps = (downloaded / timeElapsed) / 1024 / 1024; // en MB/s
+                    const downloadSpeedMbps = downloadSpeedMBps * 8; // Convertir a Mbps
+
+                    // Actualizar la barra de progreso
+                    progressBar.style.width = `${(downloaded / total) * 100}%`;
+
+                    // Mostrar la velocidad
+                    speedMbpsElement.textContent = `${downloadSpeedMbps.toFixed(2)}`;
+                    speedMBElement.textContent = `${downloadSpeedMBps.toFixed(2)}`;
+                }
+            };
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    progressBar.classList.add('completed');
+                    result.textContent = 'Test completado con éxito.';
+                } else {
+                    result.textContent = 'Error en la descarga: ' + xhr.status;
+                }
+                startButton.disabled = false; // Habilitar el botón
+            };
+
+            xhr.onerror = function () {
+                result.textContent = 'Error en la descarga. Por favor, inténtalo nuevamente.';
+                startButton.disabled = false; // Habilitar el botón
+            };
+
+            xhr.send();
+        }
+    </script>
 </body>
 </html>
