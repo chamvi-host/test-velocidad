@@ -37,15 +37,15 @@ function startTest() {
 
             // Mostrar la velocidad
             speedMbpsElement.textContent = `${downloadSpeedMbps.toFixed(2)} `;
-            speedMBElement.textContent = `${(downloadSpeedMBps).toFixed(2)} `;
+            speedMBElement.textContent = `${downloadSpeedMBps.toFixed(2)} `;
         }
     };
 
     xhr.onload = function () {
-        // Verificar si se descargó correctamente
+        // Verificar si la descarga fue exitosa
         if (xhr.status === 200) {
-            const total = xhr.response.size || xhr.getResponseHeader("Content-Length");
-            if (total && total == xhr.response.size) {
+            const responseSize = xhr.response.size || xhr.getResponseHeader("Content-Length");
+            if (responseSize && responseSize > 0) {
                 progressBar.classList.add('completed');
                 result.textContent = 'Test completado con éxito.';
             } else {
