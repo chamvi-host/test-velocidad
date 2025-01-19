@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test de Velocidad</title>
+    <title>Test de Velocidades</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -64,11 +64,12 @@
             };
 
             xhr.onload = function () {
-                if (xhr.status === 200) {
+                const total = xhr.response.size || xhr.getResponseHeader("Content-Length");
+                if (total && total == xhr.response.size) {
                     progressBar.classList.add('completed');
                     result.textContent = 'Test completado con éxito.';
                 } else {
-                    result.textContent = 'Error en la descarga: ' + xhr.status;
+                    result.textContent = 'Test finalizado, pero no se pudo verificar la descarga completa.';
                 }
                 startButton.disabled = false; // Habilitar el botón
             };
