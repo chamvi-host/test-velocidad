@@ -3,6 +3,7 @@ function startTest() {
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Proxy CORS
     const fullUrl = proxyUrl + fileUrl;
 
+    const startButton = document.getElementById('startButton');
     const startTime = Date.now();
     const progressBar = document.getElementById('progressBar');
     const result = document.getElementById('result');
@@ -10,12 +11,16 @@ function startTest() {
     const speedMbpsElement = document.getElementById('speedMbps');
     const speedMBElement = document.getElementById('speedMB');
 
+    // Deshabilitar el botón durante el test
+    startButton.disabled = true;
+
     // Mostrar barra de progreso
     progressContainer.style.visibility = 'visible';
     progressBar.style.width = '0%';
+    result.textContent = '';
 
-    // Función para medir el progreso de la descarga
-    let xhr = new XMLHttpRequest();
+    // Crear la solicitud
+    const xhr = new XMLHttpRequest();
     xhr.open('GET', fullUrl, true);
     xhr.responseType = 'blob';
 
@@ -37,12 +42,24 @@ function startTest() {
     };
 
     xhr.onload = function () {
-        // Al completar la descarga
-        result.textContent = 'Test completado.';
+        // Verificar si se descargó correctamente
+        if (xhr.status === 200) {
+            const total = xhr.response.size || xhr.getResponseHeader("Content-Length");
+            if (total && total == xhr.response.size) {
+                progressBar.classList.add('completed');
+                result.textContent = 'Test completado con éxito.';
+            } else {
+                result.textContent = 'No se pudo verificar la descarga completa.';
+            }
+        } else {
+            result.textContent = `Error: Código de estado ${xhr.status}`;
+        }
+        startButton.disabled = false; // Habilitar el botón
     };
 
     xhr.onerror = function () {
-        result.textContent = 'Error en la descarga.';
+        result.textContent = 'Error en la descarga. Verifica tu conexión.';
+        startButton.disabled = false;
     };
 
     xhr.send();
