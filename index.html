@@ -1,23 +1,98 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test de Velocidad</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Speed Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .speed {
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+        .bar {
+            width: 100%;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+            height: 30px;
+        }
+        .bar-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #4caf50, #2196f3);
+            transition: width 0.3s;
+        }
+        button {
+            background: #2196f3;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1976d2;
+        }
+    </style>
 </head>
 <body>
-    <h1>Test de Velocidad</h1>
     <div class="container">
-        <button id="startButton" onclick="startTest()">Iniciar Test</button>
-        <div id="progressContainer" style="visibility: hidden;">
-            <div id="progressBar"></div>
+        <h1>Speed Test</h1>
+        <p>Current Speed:</p>
+        <div class="speed" id="speed-display">0 Mbps (0 MB/s)</div>
+        <div class="bar">
+            <div class="bar-fill" id="bar-fill"></div>
         </div>
-        <div id="result"></div>
-        <div id="speedDetails">
-            <p>Velocidad: <span id="speedMbps">0</span> Mbps (<span id="speedMB">0</span> MB/s)</p>
-        </div>
+        <button onclick="startSpeedTest()">Start Test</button>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        function startSpeedTest() {
+            const maxSpeed = 500; // Maximum Mbps for the bar
+            const barFill = document.getElementById('bar-fill');
+            const speedDisplay = document.getElementById('speed-display');
+
+            // Simulating a speed test
+            let speed = 0;
+            const interval = setInterval(() => {
+                speed += Math.random() * 50; // Random increment
+                if (speed > maxSpeed) speed = maxSpeed;
+
+                // Update speed display
+                const MBps = (speed / 8).toFixed(2);
+                speedDisplay.textContent = `${speed.toFixed(2)} Mbps (${MBps} MB/s)`;
+
+                // Update bar width
+                const percentage = (speed / maxSpeed) * 100;
+                barFill.style.width = `${percentage}%`;
+
+                // End simulation when max speed is reached
+                if (speed >= maxSpeed) {
+                    clearInterval(interval);
+                }
+            }, 300);
+        }
+    </script>
 </body>
 </html>
