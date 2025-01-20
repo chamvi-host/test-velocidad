@@ -70,11 +70,16 @@
 
     <script>
         const speedtest = new Speedtest();
+        const maxSpeed = 200; // Adjust to realistic speed limit
+        const barFill = document.getElementById('bar-fill');
+        const speedDisplay = document.getElementById('speed-display');
 
         function startSpeedTest() {
-            const maxSpeed = 200; // Adjust to realistic speed limit
-            const barFill = document.getElementById('bar-fill');
-            const speedDisplay = document.getElementById('speed-display');
+            speedtest.setParameter('time_dl', 10); // Set download test duration (10 seconds)
+            speedtest.setParameter('time_ul', 10); // Set upload test duration (10 seconds)
+            speedtest.setParameter('url_dl', 'https://example.com/garbage'); // Replace with a valid download server URL
+            speedtest.setParameter('url_ul', 'https://example.com/empty'); // Replace with a valid upload server URL
+            speedtest.setParameter('url_ping', 'https://example.com/empty'); // Replace with a valid ping server URL
 
             speedtest.onupdate = data => {
                 const downloadSpeed = data.dlStatus; // Mbps
