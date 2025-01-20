@@ -70,34 +70,35 @@
 
     <script>
         const speedtest = new Speedtest();
-        const maxSpeed = 200; // Adjust to realistic speed limit
-        const barFill = document.getElementById('bar-fill');
-        const speedDisplay = document.getElementById('speed-display');
 
         function startSpeedTest() {
-            speedtest.setParameter('time_dl', 10); // Set download test duration (10 seconds)
-            speedtest.setParameter('time_ul', 10); // Set upload test duration (10 seconds)
-            speedtest.setParameter('url_dl', 'https://example.com/garbage'); // Replace with a valid download server URL
-            speedtest.setParameter('url_ul', 'https://example.com/empty'); // Replace with a valid upload server URL
-            speedtest.setParameter('url_ping', 'https://example.com/empty'); // Replace with a valid ping server URL
+            const maxSpeed = 200; // Límite máximo para la barra
+            const barFill = document.getElementById('bar-fill');
+            const speedDisplay = document.getElementById('speed-display');
+
+            // Configuración del servidor público
+            speedtest.setParameter('telemetry_level', 0); // Sin enviar datos
+            speedtest.setParameter('url_dl', 'https://speedtest.example.com/garbage.php'); // Servidor de descarga
+            speedtest.setParameter('url_ul', 'https://speedtest.example.com/empty.php'); // Servidor de subida
+            speedtest.setParameter('url_ping', 'https://speedtest.example.com/empty.php'); // Servidor de ping
 
             speedtest.onupdate = data => {
-                const downloadSpeed = data.dlStatus; // Mbps
-                const MBps = (downloadSpeed / 8).toFixed(2);
+                const downloadSpeed = parseFloat(data.dlStatus).toFixed(2); // Mbps
+                const MBps = (downloadSpeed / 8).toFixed(2); // MB/s
 
-                // Update speed display
+                // Actualizar velocidad mostrada
                 speedDisplay.textContent = `${downloadSpeed} Mbps (${MBps} MB/s)`;
 
-                // Update bar width
+                // Actualizar barra
                 const percentage = (downloadSpeed / maxSpeed) * 100;
                 barFill.style.width = `${Math.min(percentage, 100)}%`;
             };
 
             speedtest.onend = () => {
-                console.log('Test completed');
+                console.log('Prueba completada');
             };
 
-            // Start the speed test
+            // Iniciar la prueba de velocidad
             speedtest.start();
         }
     </script>
