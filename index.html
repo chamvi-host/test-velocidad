@@ -55,6 +55,7 @@
             background: #1976d2;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/gh/librespeed/speedtest/speedtest.js"></script>
 </head>
 <body>
     <div class="container">
@@ -68,40 +69,31 @@
     </div>
 
     <script>
-        async function startSpeedTest() {
+        const speedtest = new Speedtest();
+
+        function startSpeedTest() {
             const maxSpeed = 200; // Adjust to realistic speed limit
             const barFill = document.getElementById('bar-fill');
             const speedDisplay = document.getElementById('speed-display');
 
-            try {
-                // Fetch data from a speed test API
-                const response = await fetch('https://api.fast.com/netflix/speedtest');
-                const testFiles = await response.json();
-
-                let totalBytes = 0;
-                const startTime = performance.now();
-
-                for (const file of testFiles) {
-                    const result = await fetch(file.url);
-                    const data = await result.blob();
-                    totalBytes += data.size;
-                }
-
-                const endTime = performance.now();
-                const durationSeconds = (endTime - startTime) / 1000;
-                const speedMbps = (totalBytes * 8) / (durationSeconds * 1024 * 1024);
+            speedtest.onupdate = data => {
+                const downloadSpeed = data.dlStatus; // Mbps
+                const MBps = (downloadSpeed / 8).toFixed(2);
 
                 // Update speed display
-                const MBps = (speedMbps / 8).toFixed(2);
-                speedDisplay.textContent = `${speedMbps.toFixed(2)} Mbps (${MBps} MB/s)`;
+                speedDisplay.textContent = `${downloadSpeed} Mbps (${MBps} MB/s)`;
 
                 // Update bar width
-                const percentage = (speedMbps / maxSpeed) * 100;
+                const percentage = (downloadSpeed / maxSpeed) * 100;
                 barFill.style.width = `${Math.min(percentage, 100)}%`;
-            } catch (error) {
-                speedDisplay.textContent = 'Error performing speed test';
-                console.error('Speed test failed:', error);
-            }
+            };
+
+            speedtest.onend = () => {
+                console.log('Test completed');
+            };
+
+            // Start the speed test
+            speedtest.start();
         }
     </script>
 </body>
