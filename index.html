@@ -72,15 +72,15 @@
         const speedtest = new Speedtest();
 
         function startSpeedTest() {
-            const maxSpeed = 200; // Límite máximo para la barra
+            const maxSpeed = 500; // Límite máximo para la barra
             const barFill = document.getElementById('bar-fill');
             const speedDisplay = document.getElementById('speed-display');
 
             // Configuración del servidor público
-            speedtest.setParameter('telemetry_level', 0); // Sin enviar datos
-            speedtest.setParameter('url_dl', 'https://speedtest.example.com/garbage.php'); // Servidor de descarga
-            speedtest.setParameter('url_ul', 'https://speedtest.example.com/empty.php'); // Servidor de subida
-            speedtest.setParameter('url_ping', 'https://speedtest.example.com/empty.php'); // Servidor de ping
+            speedtest.setParameter('telemetry_level', 0); // No enviar datos
+            speedtest.setParameter('url_dl', 'https://speedtest.librespeed.org/garbage.php');
+            speedtest.setParameter('url_ul', 'https://speedtest.librespeed.org/empty.php');
+            speedtest.setParameter('url_ping', 'https://speedtest.librespeed.org/empty.php');
 
             speedtest.onupdate = data => {
                 const downloadSpeed = parseFloat(data.dlStatus).toFixed(2); // Mbps
