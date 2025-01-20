@@ -1,6 +1,6 @@
 function startTest() {
     const fileUrl = 'https://codeload.github.com/chamvi-host/PSX/zip/refs/heads/main'; // Archivo de prueba
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // Proxy CORS
+ 
     const fullUrl = proxyUrl + fileUrl;
 
     const startButton = document.getElementById('startButton');
